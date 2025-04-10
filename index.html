@@ -1,41 +1,195 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="lt">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Goltas</title>
+  <title>Goltas – Dovanok Džiaugsmą</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <style>
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(30, 115, 190, 0.5); }
+      70% { box-shadow: 0 0 0 10px rgba(30, 115, 190, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(30, 115, 190, 0); }
+    }
+
     body {
       font-family: sans-serif;
-      background: #f0f0f0;
+      background: #f9f9f9;
       text-align: center;
-      padding: 40px;
+      padding: 0;
+      color: #222;
     }
-    h2 {
-      margin-bottom: 30px;
+
+    .banner {
+      position: relative;
+      width: 100%;
+      max-height: 400px;
+      overflow: hidden;
     }
+
+    .banner img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .banner-text {
+      position: absolute;
+      right: 30px;
+      bottom: 30px;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+    }
+
+    .intro-box {
+      background: linear-gradient(135deg, #e0f0ff, #f7faff);
+      padding: 30px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin: 40px 20px;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
     .btn {
       display: block;
       width: 90%;
-      max-width: 300px;
+      max-width: 320px;
       margin: 15px auto;
       padding: 15px 25px;
-      background-color: #3b82f6;
+      background-color: #1e73be;
       color: white;
       text-decoration: none;
       font-size: 18px;
-      border-radius: 12px;
+      border-radius: 14px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       transition: background 0.3s;
+      animation: pulse 2s infinite;
     }
+
     .btn:hover {
-      background-color: #2563eb;
+      background-color: #155a99;
+    }
+
+    table {
+      margin: 20px auto;
+      background: white;
+      border-collapse: collapse;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    #countdown {
+      font-size: 22px;
+      font-weight: bold;
+      color: #d92b2b;
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    footer a {
+      color: #1e73be;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <h2>Ieškai dovanos?</h2>
-  <a class="btn" href="https://www.goltas.lt">Apsilankyk www.goltas.lt</a>
-  <a class="btn" href="https://www.goltas.lt/kontaktai/">Nori tokio pakabuko savo įmonei?KREIPKIS</a>
+
+  <div class="banner">
+    <img src="https://www.goltas.lt/wp-content/uploads/2025/02/Dovanok-dziaugsma-taupykles-vaikams-1400x700.jpg" alt="Dovanok džiaugsmą">
+    <div class="banner-text">DOVANOK DŽIAUGSMĄ</div>
+  </div>
+
+  <div class="intro-box">
+    <h3>🎁 Padovanok jausmą – ne daiktą!</h3>
+    <p>Ieškai dovanos, kuri nustebintų?<br>🎯 Spausk ir rask unikalią idėją.</p>
+
+    <a class="btn" href="https://www.goltas.lt">🌐 Peržiūrėk dovanų idėjas www.goltas.lt</a>
+    <a class="btn" href="https://www.goltas.lt/kontaktai/">✨ Nori pakabuko su logotipu? Susisiek!</a>
+  </div>
+
+  <h3>Artimiausia šventė:</h3>
+  <div id="nextHolidayName"></div>
+  <div id="countdown">Skaičiuojame laiką...</div>
+
+  <h3>Artimiausios šventės:</h3>
+  <table id="holidayTable">
+    <tr><th>Šventė</th><th>Data</th></tr>
+  </table>
+
+  <footer>
+    Informacija prižiūrima <a href="https://www.goltas.lt">www.goltas.lt</a>
+  </footer>
+
+  <script>
+    // Vienkartinis puslapio atnaujinimas
+    if (!sessionStorage.getItem('reloaded')) {
+      sessionStorage.setItem('reloaded', 'true');
+      window.location.reload(true);
+    }
+
+    const holidays = [
+      { name: "Velykos", date: "2025-04-20" },
+      { name: "Motinos diena", date: "2025-05-04" },
+      { name: "Tėvo diena", date: "2025-06-01" },
+      { name: "Joninės", date: "2025-06-24" },
+      { name: "Rugsėjo 1-oji", date: "2025-09-01" },
+      { name: "Mokytojų diena", date: "2025-10-05" },
+      { name: "Boso diena", date: "2025-10-16" },
+      { name: "Kalėdos", date: "2025-12-25" }
+    ];
+
+    const table = document.getElementById("holidayTable");
+    const today = new Date();
+
+    let nextHoliday = null;
+
+    holidays.forEach(h => {
+      const d = new Date(h.date);
+      if (d >= today && !nextHoliday) nextHoliday = { ...h, dateObj: d };
+
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${h.name}</td><td>${h.date}</td>`;
+      table.appendChild(row);
+    });
+
+    document.getElementById("nextHolidayName").textContent = nextHoliday ? nextHoliday.name + " (" + nextHoliday.date + ")" : "Šventės baigėsi!";
+
+    const countdownEl = document.getElementById("countdown");
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = nextHoliday.dateObj - now;
+      if (distance < 0) {
+        countdownEl.textContent = "Šventė jau atėjo!";
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+    };
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
 </body>
 </html>

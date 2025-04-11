@@ -202,15 +202,23 @@
       </a>
     </div>
 
-    <div class="contacts">
-      <p>Susisiek:</p>
-      <a href="tel:+37064544661">
-        <img src="https://cdn-icons-png.flaticon.com/512/159/159832.png" alt="Telefonas"> +370 645 44661
-      </a>
-      <a href="mailto:info@goltas.lt">
-        <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="El. paštas"> info@goltas.lt
-      </a>
-    </div>
+    
+<div class="contacts">
+  <p>Susisiek:</p>
+  <div id="phone-link"></div>
+  <div id="email-link"></div>
+</div>
+<script>
+  const phoneCode = "+370";
+  const phoneRest = "64544661";
+  const emailUser = "info";
+  const emailDomain = "goltas.lt";
+  document.getElementById("phone-link").innerHTML =
+    '<a href="tel:' + phoneCode + phoneRest + '"><img src="https://cdn-icons-png.flaticon.com/512/159/159832.png" alt="Telefonas" style="width:24px;height:24px;"> ' + phoneCode + ' ' + phoneRest + '</a>';
+  document.getElementById("email-link").innerHTML =
+    '<a href="mailto:' + emailUser + '@' + emailDomain + '"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png" alt="El. paštas" style="width:24px;height:24px;"> ' + emailUser + '@' + emailDomain + '</a>';
+</script>
+
   </div>
 
   <h3>Artimiausia šventė:</h3>

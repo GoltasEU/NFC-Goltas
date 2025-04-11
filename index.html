@@ -26,14 +26,19 @@
     .banner {
       position: relative;
       width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
       max-height: 400px;
       overflow: hidden;
+      border: 6px solid #e3e3e3;
+      box-sizing: border-box;
     }
 
     .banner img {
       width: 100%;
       height: auto;
       object-fit: cover;
+      display: block;
     }
 
     .banner-text {
@@ -59,7 +64,10 @@
     }
 
     .btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       width: 90%;
       max-width: 320px;
       margin: 15px auto;
@@ -74,8 +82,33 @@
       animation: pulse 2s infinite;
     }
 
+    .btn img {
+      height: 50px;
+      width: auto;
+    }
+
     .btn:hover {
       background-color: #155a99;
+    }
+
+    .socials {
+      margin-top: 30px;
+    }
+
+    .socials p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .socials a {
+      margin: 0 10px;
+      display: inline-block;
+    }
+
+    .socials img {
+      width: 40px;
+      height: 40px;
     }
 
     table {
@@ -121,15 +154,35 @@
   <div class="intro-box">
     <p>Ieškai dovanos, kuri nustebintų?<br>🎯 Spausk ir rask unikalią idėją.</p>
 
-    <a class="btn" href="https://www.goltas.lt">🌐 Peržiūrėk dovanų idėjas www.goltas.lt</a>
-    <a class="btn" href="https://www.goltas.lt/kontaktai/">✨ Nori pakabuko su logotipu? Susisiek!</a>
+    <a class="btn" href="https://www.goltas.lt">
+      🌐 Peržiūrėk dovanų idėjas www.goltas.lt
+    </a>
+
+    <a class="btn" href="https://www.goltas.lt/krikstynoms/">
+      👶 Dovanos krikštynoms
+    </a>
+
+    <a class="btn" href="https://goltaseu.github.io/noriuNFC/">
+      <img src="https://www.goltas.lt/wp-content/uploads/2025/04/Pakabukas-su-NFC-68-x-80-mm.png" alt="NFC pakabukas">
+      Nori pakabuko su logotipu? Spausk
+    </a>
+
+    <div class="socials">
+      <p>Sek mus:</p>
+      <a href="https://www.facebook.com/goltas.lt" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+      </a>
+      <a href="https://www.instagram.com/goltas.lt/" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram">
+      </a>
+    </div>
   </div>
 
   <h3>Artimiausia šventė:</h3>
   <div id="nextHolidayName"></div>
   <div id="countdown">Skaičiuojame laiką...</div>
 
-  <h3>Artimiausios šventės:</h3>
+  <h3>Kitos šventės:</h3>
   <table id="holidayTable">
     <tr><th>Šventė</th><th>Data</th></tr>
   </table>
@@ -139,7 +192,6 @@
   </footer>
 
   <script>
-    // Vienkartinis puslapio atnaujinimas
     if (!sessionStorage.getItem('reloaded')) {
       sessionStorage.setItem('reloaded', 'true');
       window.location.reload(true);
